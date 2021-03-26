@@ -4,27 +4,19 @@ const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 const jsonParser = express.json()
-
-const app: any = express()
-
-const morganOption = (NODE_ENV === 'production')
-    ? 'tiny'
-    : 'common';
+const app = express()
+const allRouter = require('./router/all')
+const morganOption = (NODE_ENV === 'production') ? 'tiny' : 'common';
 
 app.use(morgan(morganOption))
 app.use(cors())
 app.use(helmet())
 
-app.get('/API', (req: any, res: any) => {
-    res.send('hello ts')
-})
+//custom routers
 
-app.post(jsonParser, async (req: any, res: any, next: any) => {
-    req.body
-})
+app.use('/api/all', allRouter)
 
-
-app.use(function errorHandler(error: any, req: any, res: any, next: any) {
+app.use(function errorHandler(error: any, res: any) {
     let response
     if (NODE_ENV === 'production') {
         response = { error: { message: 'server error' } }
