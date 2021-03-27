@@ -5,16 +5,17 @@ const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 const jsonParser = express.json()
 const app = express()
-const allRouter = require('./router/all')
 const morganOption = (NODE_ENV === 'production') ? 'tiny' : 'common';
+const router = require('./router/router')
+
+
 
 app.use(morgan(morganOption))
 app.use(cors())
 app.use(helmet())
 
 //custom routers
-
-app.use('/api/all', allRouter)
+app.use('/api/', router)
 
 app.use(function errorHandler(error: any, res: any) {
     let response
