@@ -18,8 +18,11 @@ app.use(helmet());
 app.get("/", (req, res) => {
     res.send("Hello, ts!");
 });
-app.use(function errorHandler(error, req, res) {
-    const response = { message: error.message, error };
-    res.status(500).json(response);
+app.use(function errorHandler(err, req, res, next) {
+    if (res.headersSent) {
+        return next(err);
+    }
+    res.status(500);
+    res.render('error', { error: err });
 });
 module.exports = app;

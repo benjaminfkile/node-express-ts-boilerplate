@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from "express"
+import express, { Express, NextFunction, Request, Response } from "express"
 const morgan = require("morgan")
 const cors = require("cors")
 const helmet = require("helmet")
@@ -14,12 +14,15 @@ app.use(cors())
 app.use(helmet())
 
 app.get("/", (req: Request, res: Response) => {
-    res.send("Hello, ts!")
+  res.send("Hello, ts!")
 })
 
-  app.use(function errorHandler(error: Error, req: Request, res: Response) {
-      const response = { message: error.message, error }
-      res.status(500).json(response)
-    })
+app.use(function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
+  if (res.headersSent) {
+    return next(err)
+  }
+  res.status(500)
+  res.render('error', { error: err })
+})
 
 module.exports = app
