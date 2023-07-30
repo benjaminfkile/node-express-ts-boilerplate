@@ -14,7 +14,7 @@ app.use(cors())
 app.use(helmet())
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Hello, ts!")
+  res.send(`"C", is for cookie`)
 })
 
 app.use(function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
