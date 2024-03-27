@@ -4,9 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
-const app = require("./src/app");
+const app_1 = __importDefault(require("./src/app"));
+// Configuring dotenv
 dotenv_1.default.config();
-const PORT = process.env.PORT;
-app.listen(PORT, () => {
+// Getting the PORT from environment variables
+const PORT = process.env.PORT || 8000; // Default to 3000 if PORT is not provided in the environment
+// Starting the server
+app_1.default.listen(PORT, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
 });
